@@ -44,7 +44,7 @@ local Gruvbox = {}
 ---@field transparent_mode boolean?
 ---@field undercurl boolean?
 ---@field underline boolean?
-Gruvbox.config = {
+local default_config = {
   terminal_colors = true,
   undercurl = true,
   underline = true,
@@ -67,6 +67,8 @@ Gruvbox.config = {
   dim_inactive = false,
   transparent_mode = false,
 }
+
+Gruvbox.config = vim.deepcopy(default_config)
 
 -- main gruvbox color palette
 ---@class GruvboxPalette
@@ -374,6 +376,7 @@ local function get_groups()
     DiagnosticError = { link = "GruvboxRed" },
     DiagnosticWarn = { link = "GruvboxYellow" },
     DiagnosticInfo = { link = "GruvboxBlue" },
+    DiagnosticDeprecated = { strikethrough = config.strikethrough },
     DiagnosticHint = { link = "GruvboxAqua" },
     DiagnosticOk = { link = "GruvboxGreen" },
     DiagnosticSignError = { link = "GruvboxRedSign" },
@@ -1313,6 +1316,7 @@ end
 
 ---@param config GruvboxConfig?
 Gruvbox.setup = function(config)
+  Gruvbox.config = vim.deepcopy(default_config)
   Gruvbox.config = vim.tbl_deep_extend("force", Gruvbox.config, config or {})
 end
 
